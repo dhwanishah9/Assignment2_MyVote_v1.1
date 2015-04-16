@@ -39,7 +39,7 @@ public class ScheduledTasks {
 	    	        	expiredDate.setTime(expDate);
 	    					if(currentdate.after(expiredDate)){
 	    						System.out.println("poll is expired");
-	    						callProducer(polls.getResult(),moderator.getEmail());
+	    						callProducer(polls,moderator.getEmail());
 	    						System.out.println("producer call ended");
 	    					}
 	    				}catch(Exception e){
@@ -50,10 +50,14 @@ public class ScheduledTasks {
 		}
 	}
 
-	private void callProducer(int[] results,String emailId) {
+	private void callProducer(Polls poll,String emailId) {
+			int[] result = new int[2];
+			result = poll.getResult();
+			String[] choice = new String[2];
+			choice = poll.getChoice();
 		    new SimpleProducer();
 	        String topic = "cmpe273-topic";
-	        String msg = emailId+":010107266:Poll Result"+Arrays.toString(results);
+	        String msg = emailId+":010107266:Poll Result["+choice[0]+"="+result[0]+","+choice[1]+"="+result[1]+"]";
 	        System.out.println(msg);
 	        KeyedMessage<Integer, String> data = new KeyedMessage<>(topic, msg);
 	        SimpleProducer.producer.send(data);
