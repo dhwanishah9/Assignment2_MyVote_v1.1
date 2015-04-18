@@ -2,6 +2,8 @@ package myvote;
 
 import org.springframework.data.annotation.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Polls {
 	@Id
 	String id;
@@ -9,19 +11,23 @@ public class Polls {
 	String question, started_at, expired_at;
 	String[] choice = new String[2];
 	int[] result = new int[2];
+	
+	@JsonIgnore
+	boolean flag = false;
 
 	public Polls() {
 		super();
 	}
 
 	public Polls(String id, String question, String started_at,
-			String expired_at, String[] choice) {
+			String expired_at, String[] choice, boolean flag) {
 		super();
 		this.id = id;
 		this.question = question;
 		this.started_at = started_at;
 		this.expired_at = expired_at;
 		this.choice = choice;
+		this.flag = flag;
 	}
 
 	public String getId() {
@@ -70,6 +76,14 @@ public class Polls {
 
 	public void setResult(int[] result) {
 		this.result = result;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
 }

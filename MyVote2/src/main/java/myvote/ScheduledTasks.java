@@ -2,7 +2,6 @@ package myvote;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -37,9 +36,10 @@ public class ScheduledTasks {
 	    	        	Calendar expiredDate = Calendar.getInstance();
 	    	        	currentdate.setTime(new Date());
 	    	        	expiredDate.setTime(expDate);
-	    					if(currentdate.after(expiredDate)){
+	    					if(!polls.isFlag() && currentdate.after(expiredDate)){
 	    						System.out.println("poll is expired");
 	    						callProducer(polls,moderator.getEmail());
+	    						polls.setFlag(true);
 	    						System.out.println("producer call ended");
 	    					}
 	    				}catch(Exception e){

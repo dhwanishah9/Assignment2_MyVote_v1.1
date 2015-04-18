@@ -108,6 +108,7 @@ public class VoteController extends WebSecurityConfigurerAdapter {
 	public ResponseEntity createPoll(@Valid @RequestBody Polls poll,
 			@PathVariable int moderator_id) {
 		poll.setId(Integer.toString((int) randomId.incrementAndGet(), 36));
+		poll.setFlag(false);
 		pollRepo.save(poll);
 		moderator = moderatorRepo.findById(moderator_id);
 		strlst = moderator.getPollslist();
@@ -154,6 +155,7 @@ public class VoteController extends WebSecurityConfigurerAdapter {
 
 	@RequestMapping(value = "/moderators/{moderator_id}/polls", method = RequestMethod.GET)
 	public ResponseEntity listAllPolls(@PathVariable int moderator_id) {
+		Map<String, Object> pollMap = new LinkedHashMap<String, Object>();
 		ArrayList<Polls> stringlist1 = new ArrayList<Polls>();
 		moderator = moderatorRepo.findById(moderator_id);
 		strlst = moderator.getPollslist();
